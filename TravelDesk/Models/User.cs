@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace TravelDesk.Models
 {
@@ -32,6 +33,7 @@ namespace TravelDesk.Models
         public string Password { get; set; }
 
         [Required]
+        [JsonIgnore]
         public Department Department { get; set; }
 
         [Required]
