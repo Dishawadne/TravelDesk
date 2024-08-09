@@ -50,6 +50,16 @@ namespace TravelDesk.Context
                    }
                    );
 
+            modelBuilder.Entity<User>()
+               .HasOne(u => u.Role)
+               .WithMany(r => r.Users)
+               .HasForeignKey(u => u.RoleId);
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Manager)
+                .WithMany()
+                .HasForeignKey(u => u.ManagerId);
+
         }
     }
 }

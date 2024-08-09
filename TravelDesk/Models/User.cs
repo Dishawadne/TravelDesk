@@ -33,8 +33,8 @@ namespace TravelDesk.Models
         public string Password { get; set; }
 
         [Required]
-        [JsonIgnore]
-        public Department Department { get; set; }
+        
+        public string Department { get; set; }
 
         [Required]
         public int RoleId { get; set; }

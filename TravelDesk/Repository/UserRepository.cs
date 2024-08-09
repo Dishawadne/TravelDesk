@@ -17,12 +17,16 @@ namespace TravelDesk.Repository
 
         public List<User> GetUsers()
         {
-            return _context.Users.ToList();
+            return _context.Users.Include(u => u.Role)
+                .Include(u => u.Manager)
+                .ToList();
         }
 
         public User GetUserById(int id)
         {
-            return _context.Users.Find(id);
+            return _context.Users.Include(u => u.Role)
+                .Include(u => u.Manager)
+                .FirstOrDefault(u => u.Id == id);
         }
 
         public User AddUser(User user)
@@ -40,7 +44,7 @@ namespace TravelDesk.Repository
                 existingUser.FirstName = user.FirstName;
                 existingUser.LastName = user.LastName;
                 existingUser.Address = user.Address;
-                
+                existingUser.Department = user.Department;
                 existingUser.MobileNum = user.MobileNum;
                 existingUser.Password = user.Password;
                 existingUser.RoleId = user.RoleId;
