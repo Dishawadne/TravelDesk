@@ -11,7 +11,8 @@ namespace TravelDesk.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
 
-
+        public DbSet<TravelRequest> TravelRequests { get; set; }
+        public DbSet<Document> Documents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -59,6 +60,22 @@ namespace TravelDesk.Context
                 .HasOne(u => u.Manager)
                 .WithMany()
                 .HasForeignKey(u => u.ManagerId);
+
+            modelBuilder.Entity<TravelRequest>()
+                 .HasKey(tr => tr.TravelRequestId);
+
+            modelBuilder.Entity<Document>()
+                .HasKey(d => d.DocumentId);
+
+            modelBuilder.Entity<TravelRequest>()
+                .HasMany(tr => tr.Documents)
+                .WithOne(d => d.TravelRequest)
+                .HasForeignKey(d => d.TravelRequestId);
+
+            modelBuilder.Entity<TravelRequest>()
+                .HasOne(tr => tr.Employee)
+                .WithMany(e => e.TravelRequests)
+                .HasForeignKey(tr => tr.EmployeeId);
 
         }
     }

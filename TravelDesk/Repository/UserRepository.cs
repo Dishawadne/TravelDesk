@@ -19,6 +19,7 @@ namespace TravelDesk.Repository
         {
             return _context.Users.Include(u => u.Role)
                 .Include(u => u.Manager)
+                .Where(u => u.RoleId != 1)
                 .ToList();
         }
 

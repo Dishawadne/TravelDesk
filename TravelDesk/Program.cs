@@ -25,6 +25,7 @@ namespace TravelDesk
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+            builder.Services.AddScoped<ITravelRequestRepository, TravelRequestRepository>();
             builder.Services.AddDbContext<DbContexts>(op => op.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));
 
          builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
