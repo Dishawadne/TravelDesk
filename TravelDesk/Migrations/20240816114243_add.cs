@@ -6,86 +6,90 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TravelDesk.Migrations
 {
     /// <inheritdoc />
-    public partial class Deptadded : Migration
+    public partial class add : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
-                name: "Department",
-                table: "Users",
+            migrationBuilder.AddColumn<string>(
+                name: "PassportFileName",
+                table: "AirBookings",
                 type: "nvarchar(max)",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int");
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "VisaFileName",
+                table: "AirBookings",
+                type: "nvarchar(max)",
+                nullable: true);
 
             migrationBuilder.UpdateData(
                 table: "Roles",
                 keyColumn: "RoleId",
                 keyValue: 1,
                 column: "CreatedOn",
-                value: new DateTime(2024, 8, 9, 15, 53, 21, 279, DateTimeKind.Local).AddTicks(3598));
+                value: new DateTime(2024, 8, 16, 17, 12, 42, 695, DateTimeKind.Local).AddTicks(4745));
 
             migrationBuilder.UpdateData(
                 table: "Roles",
                 keyColumn: "RoleId",
                 keyValue: 2,
                 column: "CreatedOn",
-                value: new DateTime(2024, 8, 9, 15, 53, 21, 279, DateTimeKind.Local).AddTicks(3601));
+                value: new DateTime(2024, 8, 16, 17, 12, 42, 695, DateTimeKind.Local).AddTicks(4749));
 
             migrationBuilder.UpdateData(
                 table: "Roles",
                 keyColumn: "RoleId",
                 keyValue: 3,
                 column: "CreatedOn",
-                value: new DateTime(2024, 8, 9, 15, 53, 21, 279, DateTimeKind.Local).AddTicks(3603));
+                value: new DateTime(2024, 8, 16, 17, 12, 42, 695, DateTimeKind.Local).AddTicks(4751));
 
             migrationBuilder.UpdateData(
                 table: "Roles",
                 keyColumn: "RoleId",
                 keyValue: 4,
                 column: "CreatedOn",
-                value: new DateTime(2024, 8, 9, 15, 53, 21, 279, DateTimeKind.Local).AddTicks(3604));
+                value: new DateTime(2024, 8, 16, 17, 12, 42, 695, DateTimeKind.Local).AddTicks(4753));
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<int>(
-                name: "Department",
-                table: "Users",
-                type: "int",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+            migrationBuilder.DropColumn(
+                name: "PassportFileName",
+                table: "AirBookings");
+
+            migrationBuilder.DropColumn(
+                name: "VisaFileName",
+                table: "AirBookings");
 
             migrationBuilder.UpdateData(
                 table: "Roles",
                 keyColumn: "RoleId",
                 keyValue: 1,
                 column: "CreatedOn",
-                value: new DateTime(2024, 8, 7, 14, 53, 46, 437, DateTimeKind.Local).AddTicks(7196));
+                value: new DateTime(2024, 8, 15, 14, 19, 3, 218, DateTimeKind.Local).AddTicks(3154));
 
             migrationBuilder.UpdateData(
                 table: "Roles",
                 keyColumn: "RoleId",
                 keyValue: 2,
                 column: "CreatedOn",
-                value: new DateTime(2024, 8, 7, 14, 53, 46, 437, DateTimeKind.Local).AddTicks(7199));
+                value: new DateTime(2024, 8, 15, 14, 19, 3, 218, DateTimeKind.Local).AddTicks(3157));
 
             migrationBuilder.UpdateData(
                 table: "Roles",
                 keyColumn: "RoleId",
                 keyValue: 3,
                 column: "CreatedOn",
-                value: new DateTime(2024, 8, 7, 14, 53, 46, 437, DateTimeKind.Local).AddTicks(7201));
+                value: new DateTime(2024, 8, 15, 14, 19, 3, 218, DateTimeKind.Local).AddTicks(3158));
 
             migrationBuilder.UpdateData(
                 table: "Roles",
                 keyColumn: "RoleId",
                 keyValue: 4,
                 column: "CreatedOn",
-                value: new DateTime(2024, 8, 7, 14, 53, 46, 437, DateTimeKind.Local).AddTicks(7202));
+                value: new DateTime(2024, 8, 15, 14, 19, 3, 218, DateTimeKind.Local).AddTicks(3160));
         }
     }
 }

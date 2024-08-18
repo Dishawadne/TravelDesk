@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TeavelDesk.Models;
 using TravelDesk.Models;
 
 namespace TravelDesk.Context
@@ -11,8 +12,11 @@ namespace TravelDesk.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
 
-        public DbSet<TravelRequest> TravelRequests { get; set; }
-        public DbSet<Document> Documents { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<AirBooking> AirBookings { get; set; }
+
+        public DbSet<HotelBooking> HotelBookings { get; set; }
+      
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -61,21 +65,22 @@ namespace TravelDesk.Context
                 .WithMany()
                 .HasForeignKey(u => u.ManagerId);
 
-            modelBuilder.Entity<TravelRequest>()
-                 .HasKey(tr => tr.TravelRequestId);
 
-            modelBuilder.Entity<Document>()
-                .HasKey(d => d.DocumentId);
 
-            modelBuilder.Entity<TravelRequest>()
-                .HasMany(tr => tr.Documents)
-                .WithOne(d => d.TravelRequest)
-                .HasForeignKey(d => d.TravelRequestId);
+           
+            modelBuilder.Entity<Employee>()
+               .HasMany(e => e.HotelBookings)
+               .WithOne(h => h.Employee)
+               .HasForeignKey(h => h.EmployeeId);
 
-            modelBuilder.Entity<TravelRequest>()
-                .HasOne(tr => tr.Employee)
-                .WithMany(e => e.TravelRequests)
-                .HasForeignKey(tr => tr.EmployeeId);
+            // Configure the one-to-many relationship between Employee and AirBooking
+            modelBuilder.Entity<Employee>()
+                .HasMany(e => e.AirBookings)
+                .WithOne(a => a.Employee)
+                .HasForeignKey(a => a.EmployeeId);
+
+            base.OnModelCreating(modelBuilder);
+
 
         }
     }

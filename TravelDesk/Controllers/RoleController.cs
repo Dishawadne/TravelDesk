@@ -9,7 +9,6 @@ namespace TravelDesk.Controllers
     public class RoleController : Controller
     {
         private readonly DbContexts _context;
-
         public RoleController(DbContexts context)
         {
             _context = context;
