@@ -29,6 +29,12 @@ namespace TravelDesk.Controllers
             return Ok(roles);
         }
 
+        [HttpGet("{id}")]
+        public Role GetRoleById(int id)
+        {
+            return _context.Roles.FirstOrDefault(x => x.RoleId == id);
+        }
+
 
     }
 }

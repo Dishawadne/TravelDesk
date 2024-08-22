@@ -1,14 +1,19 @@
-﻿//using TravelDesk.Models;
+﻿using TravelDesk.Models;
 
-//namespace TravelDesk.IRepository
-//{
-//    public interface ITravelRequestRepository
-//    {
-//        Task<TravelRequest> CreateRequestAsync(TravelRequest request);
-//        Task<TravelRequest> GetRequestByIdAsync(int requestId);
-//        Task<IEnumerable<TravelRequest>> GetRequestsByEmployeeIdAsync(int employeeId);
-//        Task UpdateRequestAsync(TravelRequest request);
-//        Task DeleteRequestAsync(int requestId);
-//        Task SaveDocumentAsync(Document document);
-//    }
-//}
+namespace TravelDesk.IRepository
+{
+    public interface ITravelRequestRepository
+    {
+        //Task<IEnumerable<TravelRequest>> GetAllRequests();
+        //Task<TravelRequest> GetRequestById(int id);
+        //Task<TravelRequest> AddRequest(TravelRequest travelRequest);
+        //Task UpdateRequest(TravelRequest travelRequest);
+        //Task DeleteRequest(int id);
+        Task<TravelRequest> GetTravelRequestByIdAsync(int id);
+        Task<IEnumerable<TravelRequest>> GetAllTravelRequestsAsync();
+        Task CreateTravelRequestAsync(TravelRequest travelRequest);
+        Task UpdateTravelRequestAsync(TravelRequest travelRequest);
+        Task DeleteTravelRequestAsync(int id);
+
+    }
+}

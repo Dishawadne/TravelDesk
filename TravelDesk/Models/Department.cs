@@ -7,4 +7,10 @@
         Finance,
         Sales
     }
+    public enum TravelRequestStatus
+    {
+        Pending,
+        Approved,
+        Rejected
+    }
 }

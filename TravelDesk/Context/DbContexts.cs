@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TeavelDesk.Models;
+
 using TravelDesk.Models;
 
 namespace TravelDesk.Context
@@ -8,14 +8,14 @@ namespace TravelDesk.Context
     {
         public DbContexts(DbContextOptions<DbContexts> options):base(
             options) { }
-
+        public DbContexts() { }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
 
-        public DbSet<Employee> Employees { get; set; }
-        public DbSet<AirBooking> AirBookings { get; set; }
+        public DbSet<CommonTypeRef> CommonTypes { get; set; }
 
-        public DbSet<HotelBooking> HotelBookings { get; set; }
+       public DbSet<TravelRequest> TravelRequests { get; set; }
+       
       
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -55,6 +55,9 @@ namespace TravelDesk.Context
                    }
                    );
 
+
+
+
             modelBuilder.Entity<User>()
                .HasOne(u => u.Role)
                .WithMany(r => r.Users)
@@ -65,23 +68,65 @@ namespace TravelDesk.Context
                 .WithMany()
                 .HasForeignKey(u => u.ManagerId);
 
+            modelBuilder.Entity<User>()
+         .HasOne(u => u.Role)
+         .WithMany(r => r.Users)
+         .HasForeignKey(u => u.RoleId)
+         .OnDelete(DeleteBehavior.Restrict); // No cascade delete for Role
 
+            // Configure Manager relationship (self-referencing)
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Manager)
+                .WithMany()
+                .HasForeignKey(u => u.ManagerId)
+                .OnDelete(DeleteBehavior.Restrict); // No cascade delete for Manager
 
-           
-            modelBuilder.Entity<Employee>()
-               .HasMany(e => e.HotelBookings)
-               .WithOne(h => h.Employee)
-               .HasForeignKey(h => h.EmployeeId);
+            // Configure TravelRequest -> User relationship
+            modelBuilder.Entity<TravelRequest>()
+                .HasOne(tr => tr.User)
+                .WithMany()
+                .HasForeignKey(tr => tr.UserId)
+                .OnDelete(DeleteBehavior.Restrict); // No cascade delete for User
 
-            // Configure the one-to-many relationship between Employee and AirBooking
-            modelBuilder.Entity<Employee>()
-                .HasMany(e => e.AirBookings)
-                .WithOne(a => a.Employee)
-                .HasForeignKey(a => a.EmployeeId);
-
-            base.OnModelCreating(modelBuilder);
-
-
+            // Configure TravelRequest -> Manager relationship
+            modelBuilder.Entity<TravelRequest>()
+                .HasOne(tr => tr.Manager)
+                .WithMany()
+                .HasForeignKey(tr => tr.ManagerId)
+                .OnDelete(DeleteBehavior.Restrict); // No cascade delete for Manager
         }
-    }
+    
+        public override int SaveChanges()
+        {
+            SetAuditFields();
+            return base.SaveChanges();
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            SetAuditFields();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        private void SetAuditFields()
+        {
+            var entries = ChangeTracker.Entries<User>()
+                .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+
+            foreach (var entry in entries)
+            {
+                var entity = entry.Entity;
+
+                if (entry.State == EntityState.Added)
+                {
+                    entity.CreatedBy = 1;
+                    entity.CreatedOn = DateTime.Now;
+                }
+
+                entity.ModifiedBy = "1"; 
+                entity.ModifiedOn = DateTime.Now;
+            }
+        }
+    
+}
 }

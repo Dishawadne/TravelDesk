@@ -43,7 +43,7 @@ namespace TravelDesk.Models
        
         public int? ManagerId { get; set; }
 
-        [ForeignKey("ManagerId")]
+       // [ForeignKey("ManagerId")]
         public User? Manager { get; set; }
 
         // Audit fields
