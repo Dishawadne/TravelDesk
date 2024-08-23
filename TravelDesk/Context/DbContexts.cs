@@ -8,10 +8,10 @@ namespace TravelDesk.Context
     {
         public DbContexts(DbContextOptions<DbContexts> options):base(
             options) { }
-        public DbContexts() { }
+        //public DbContexts() { }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
-
+        //public DbSet<Project> Projects { get; set; }
         public DbSet<CommonTypeRef> CommonTypes { get; set; }
 
        public DbSet<TravelRequest> TravelRequests { get; set; }
@@ -56,7 +56,11 @@ namespace TravelDesk.Context
                    );
 
 
-
+    //        modelBuilder.Entity<Project>().HasData(
+    //new Project { ProjectId = 1, ProjectName = "Project Alpha", CreatedBy = 1, CreatedOn = DateTime.Now, IsActive = true },
+    //new Project { ProjectId = 2, ProjectName = "Project Beta", CreatedBy = 1, CreatedOn = DateTime.Now, IsActive = true },
+    //new Project { ProjectId = 3, ProjectName = "Project Gamma", CreatedBy = 1, CreatedOn = DateTime.Now, IsActive = true }
+//);
 
             modelBuilder.Entity<User>()
                .HasOne(u => u.Role)
@@ -74,26 +78,25 @@ namespace TravelDesk.Context
          .HasForeignKey(u => u.RoleId)
          .OnDelete(DeleteBehavior.Restrict); // No cascade delete for Role
 
-            // Configure Manager relationship (self-referencing)
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Manager)
-                .WithMany()
-                .HasForeignKey(u => u.ManagerId)
-                .OnDelete(DeleteBehavior.Restrict); // No cascade delete for Manager
 
-            // Configure TravelRequest -> User relationship
             modelBuilder.Entity<TravelRequest>()
-                .HasOne(tr => tr.User)
-                .WithMany()
-                .HasForeignKey(tr => tr.UserId)
-                .OnDelete(DeleteBehavior.Restrict); // No cascade delete for User
+       .HasKey(tr => tr.RequestId);
 
-            // Configure TravelRequest -> Manager relationship
+
+            modelBuilder.Entity<TravelRequest>()
+           .HasOne(tr => tr.User)
+           .WithMany(u => u.TravelRequests)
+           .HasForeignKey(tr => tr.UserId)
+           .OnDelete(DeleteBehavior.Restrict); // Optional: Configure the delete behavior
+
+            // Define the relationship for Manager -> TravelRequest
             modelBuilder.Entity<TravelRequest>()
                 .HasOne(tr => tr.Manager)
-                .WithMany()
+                .WithMany() // No inverse navigation property
                 .HasForeignKey(tr => tr.ManagerId)
-                .OnDelete(DeleteBehavior.Restrict); // No cascade delete for Manager
+                .OnDelete(DeleteBehavior.Restrict);
+
+
         }
     
         public override int SaveChanges()

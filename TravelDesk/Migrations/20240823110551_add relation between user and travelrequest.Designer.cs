@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelDesk.Context;
 
@@ -11,9 +12,11 @@ using TravelDesk.Context;
 namespace TravelDesk.Migrations
 {
     [DbContext(typeof(DbContexts))]
-    partial class DbContextsModelSnapshot : ModelSnapshot
+    [Migration("20240823110551_add relation between user and travelrequest")]
+    partial class addrelationbetweenuserandtravelrequest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,7 +82,7 @@ namespace TravelDesk.Migrations
                         {
                             RoleId = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2024, 8, 23, 18, 50, 49, 550, DateTimeKind.Local).AddTicks(2248),
+                            CreatedOn = new DateTime(2024, 8, 23, 16, 35, 49, 810, DateTimeKind.Local).AddTicks(7350),
                             IsActive = true,
                             RoleName = "Admin"
                         },
@@ -87,7 +90,7 @@ namespace TravelDesk.Migrations
                         {
                             RoleId = 2,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2024, 8, 23, 18, 50, 49, 550, DateTimeKind.Local).AddTicks(2254),
+                            CreatedOn = new DateTime(2024, 8, 23, 16, 35, 49, 810, DateTimeKind.Local).AddTicks(7356),
                             IsActive = true,
                             RoleName = "HR TravelAdmin"
                         },
@@ -95,7 +98,7 @@ namespace TravelDesk.Migrations
                         {
                             RoleId = 3,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2024, 8, 23, 18, 50, 49, 550, DateTimeKind.Local).AddTicks(2257),
+                            CreatedOn = new DateTime(2024, 8, 23, 16, 35, 49, 810, DateTimeKind.Local).AddTicks(7358),
                             IsActive = true,
                             RoleName = "Manager"
                         },
@@ -103,7 +106,7 @@ namespace TravelDesk.Migrations
                         {
                             RoleId = 4,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2024, 8, 23, 18, 50, 49, 550, DateTimeKind.Local).AddTicks(2261),
+                            CreatedOn = new DateTime(2024, 8, 23, 16, 35, 49, 810, DateTimeKind.Local).AddTicks(7360),
                             IsActive = true,
                             RoleName = "Employee"
                         });
@@ -119,9 +122,6 @@ namespace TravelDesk.Migrations
 
                     b.Property<string>("AddharCard")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Comments")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")

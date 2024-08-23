@@ -45,6 +45,8 @@ namespace TravelDesk.Models
 
        // [ForeignKey("ManagerId")]
         public User? Manager { get; set; }
+        [JsonIgnore]
+        public ICollection<TravelRequest>? TravelRequests { get; set; }
 
         // Audit fields
         [Required]
