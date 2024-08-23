@@ -14,7 +14,7 @@ namespace TravelDesk.Models
         public User? User { get; set; } // Auto-fill with User info (Name, Department)
 
         public string ReasonForTravelling { get; set; }
-        public int ManagerId {  get; set; }
+        public int? ManagerId {  get; set; }
         public User? Manager { get; set; }
 
         [Required]

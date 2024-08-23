@@ -29,7 +29,7 @@ namespace TravelDesk.Models
         public string MobileNum { get; set; }
 
         [Required]
-        [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be at least 8 characters long.")]
+        [StringLength(100, MinimumLength = 5, ErrorMessage = "Password must be at least 8 characters long.")]
         public string Password { get; set; }
 
         [Required]
