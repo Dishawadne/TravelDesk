@@ -79,7 +79,7 @@ namespace TravelDesk.Migrations
                         {
                             RoleId = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2024, 8, 23, 19, 43, 42, 172, DateTimeKind.Local).AddTicks(9803),
+                            CreatedOn = new DateTime(2024, 8, 24, 11, 16, 3, 6, DateTimeKind.Local).AddTicks(6213),
                             IsActive = true,
                             RoleName = "Admin"
                         },
@@ -87,7 +87,7 @@ namespace TravelDesk.Migrations
                         {
                             RoleId = 2,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2024, 8, 23, 19, 43, 42, 172, DateTimeKind.Local).AddTicks(9860),
+                            CreatedOn = new DateTime(2024, 8, 24, 11, 16, 3, 6, DateTimeKind.Local).AddTicks(6218),
                             IsActive = true,
                             RoleName = "HR TravelAdmin"
                         },
@@ -95,7 +95,7 @@ namespace TravelDesk.Migrations
                         {
                             RoleId = 3,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2024, 8, 23, 19, 43, 42, 172, DateTimeKind.Local).AddTicks(9898),
+                            CreatedOn = new DateTime(2024, 8, 24, 11, 16, 3, 6, DateTimeKind.Local).AddTicks(6221),
                             IsActive = true,
                             RoleName = "Manager"
                         },
@@ -103,7 +103,7 @@ namespace TravelDesk.Migrations
                         {
                             RoleId = 4,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2024, 8, 23, 19, 43, 42, 172, DateTimeKind.Local).AddTicks(9933),
+                            CreatedOn = new DateTime(2024, 8, 24, 11, 16, 3, 6, DateTimeKind.Local).AddTicks(6223),
                             IsActive = true,
                             RoleName = "Employee"
                         });
@@ -119,6 +119,9 @@ namespace TravelDesk.Migrations
 
                     b.Property<string>("AddharCard")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Comments")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")

@@ -81,7 +81,8 @@ namespace TravelDesk.Controllers
             new Claim("Email", user.Email),
 
            new Claim("id",user.Id.ToString()),
-           new Claim("managerid",user.ManagerId.ToString()),
+          // new Claim("managerid",user.ManagerId.ToString()),
+          new Claim("managerid", user.ManagerId?.ToString() ?? ""),
            new Claim("name",string.Concat(user.FirstName," ",user.LastName)),
              new Claim(ClaimTypes.Role, roleName),
             new Claim("roleId",user.RoleId.ToString()) 

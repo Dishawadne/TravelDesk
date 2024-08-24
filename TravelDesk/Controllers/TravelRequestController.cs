@@ -114,8 +114,9 @@ namespace TravelDesk.Controllers
                 ProjectName = tr.ProjectName,
                 Location = tr.Location,
                 ReasonForTravelling = tr.ReasonForTravelling,
-                Status = tr.Status.ToString(), 
-               
+                Status = tr.Status.ToString(),
+                FromDate = tr.FromDate,  // Ensure these fields are correctly mapped
+                ToDate = tr.ToDate,
                 CreatedOn = tr.CreatedOn
             }).ToList();
 
@@ -195,79 +196,79 @@ namespace TravelDesk.Controllers
         }
 
 
-        //// Get all requests for a specific manager
-        //[HttpGet("manager/{managerId}")]
-        //public async Task<IActionResult> GetRequestsByManagerIdAsync(int managerId)
-        //{
-        //    var requests = await _travelRequestRepository.GetRequestsByManagerIdAsync(managerId);
-        //    if (requests == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(requests);
-        //}
+        // Get all requests for a specific manager
+        [HttpGet("manager/{managerId}")]
+        public async Task<IActionResult> GetRequestsByManagerIdAsync(int managerId)
+        {
+            var requests = await _travelRequestRepository.GetRequestsByManagerIdAsync(managerId);
+            if (requests == null)
+            {
+                return NotFound();
+            }
+            return Ok(requests);
+        }
 
-        //// Get a specific travel request by ID
-        //[HttpGet("{requestId}")]
-        //public async Task<IActionResult> GetRequestByIdAsync(int requestId)
-        //{
-        //    var request = await _travelRequestRepository.GetRequestByIdAsync(requestId);
-        //    if (request == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(request);
-        //}
+        // Get a specific travel request by ID
+        [HttpGet("{requestId}")]
+        public async Task<IActionResult> GetRequestByIdAsync(int requestId)
+        {
+            var request = await _travelRequestRepository.GetRequestByIdAsync(requestId);
+            if (request == null)
+            {
+                return NotFound();
+            }
+            return Ok(request);
+        }
 
-        //// Approve a travel request
-        //[HttpPost("{requestId}/approve")]
-        //public async Task<IActionResult> ApproveRequestAsync(int requestId, [FromBody] string comments)
-        //{
-        //    var request = await _travelRequestRepository.GetRequestByIdAsync(requestId);
-        //    if (request == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // Approve a travel request
+        [HttpPost("{requestId}/approve")]
+        public async Task<IActionResult> ApproveRequestAsync(int requestId, [FromBody] string comments)
+        {
+            var request = await _travelRequestRepository.GetRequestByIdAsync(requestId);
+            if (request == null)
+            {
+                return NotFound();
+            }
 
-        //    request.Status = TravelRequestStatus.Approved;
-        //    request.Comments = comments;
-        //    await _travelRequestRepository.UpdateRequestAsync(request);
+            request.Status = TravelRequestStatus.Approved;
+            request.Comments = comments;
+            await _travelRequestRepository.UpdateRequestAsync(request);
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
 
-        //// Reject a travel request
-        //[HttpPost("{requestId}/reject")]
-        //public async Task<IActionResult> RejectRequestAsync(int requestId, [FromBody] string comments)
-        //{
-        //    var request = await _travelRequestRepository.GetRequestByIdAsync(requestId);
-        //    if (request == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // Reject a travel request
+        [HttpPost("{requestId}/reject")]
+        public async Task<IActionResult> RejectRequestAsync(int requestId, [FromBody] string comments)
+        {
+            var request = await _travelRequestRepository.GetRequestByIdAsync(requestId);
+            if (request == null)
+            {
+                return NotFound();
+            }
 
-        //    request.Status = TravelRequestStatus.Rejected;
-        //    request.Comments = comments;
-        //    await _travelRequestRepository.UpdateRequestAsync(request);
+            request.Status = TravelRequestStatus.Rejected;
+            request.Comments = comments;
+            await _travelRequestRepository.UpdateRequestAsync(request);
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
 
-        //// Return a request to the employee
-        //[HttpPost("{requestId}/return")]
-        //public async Task<IActionResult> ReturnRequestAsync(int requestId, [FromBody] string comments)
-        //{
-        //    var request = await _travelRequestRepository.GetRequestByIdAsync(requestId);
-        //    if (request == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // Return a request to the employee
+        [HttpPost("{requestId}/return")]
+        public async Task<IActionResult> ReturnRequestAsync(int requestId, [FromBody] string comments)
+        {
+            var request = await _travelRequestRepository.GetRequestByIdAsync(requestId);
+            if (request == null)
+            {
+                return NotFound();
+            }
 
-        //    request.Status = TravelRequestStatus.Rejected; // Adjust status if needed
-        //    request.Comments = comments;
-        //    await _travelRequestRepository.UpdateRequestAsync(request);
+            request.Status = TravelRequestStatus.Rejected; // Adjust status if needed
+            request.Comments = comments;
+            await _travelRequestRepository.UpdateRequestAsync(request);
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
     }
 }
