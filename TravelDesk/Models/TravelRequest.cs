@@ -35,7 +35,7 @@ namespace TravelDesk.Models
         public string AddharCard { get; set; } // Assume this will store the path to the file
 
 
-       // public string? Comments { get; set; }
+       public string? Comments { get; set; }
         // Audit fields
         [Required]
         public DateTime CreatedOn { get; set; } = DateTime.Now;
