@@ -53,8 +53,10 @@ namespace TravelDesk.Repository
         public async Task<IEnumerable<TravelRequest>> GetRequestsByManagerIdAsync(int managerId)
         {
             return await _context.TravelRequests
-                                 .Where(tr => tr.ManagerId == managerId)
-                                 .ToListAsync();
+        .Where(tr => tr.ManagerId == managerId)
+        .Include(tr => tr.Manager) // Ensure Manager is included
+        .Include(tr => tr.User)    // Ensure User is included if needed
+        .ToListAsync();
         }
 
         public async Task<TravelRequest> GetRequestByIdAsync(int requestId)

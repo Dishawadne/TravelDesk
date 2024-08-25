@@ -111,6 +111,7 @@ namespace TravelDesk.Controllers
             var travelRequestHistory = travelRequests.Select(tr => new TravelRequestHistoryDto
             {
                 RequestId = tr.RequestId,
+
                 ProjectName = tr.ProjectName,
                 Location = tr.Location,
                 ReasonForTravelling = tr.ReasonForTravelling,
@@ -220,9 +221,9 @@ namespace TravelDesk.Controllers
             return Ok(request);
         }
 
-        // Approve a travel request
+       
         [HttpPost("{requestId}/approve")]
-        public async Task<IActionResult> ApproveRequestAsync(int requestId, [FromBody] string comments)
+        public async Task<IActionResult> ApproveRequestAsync(int requestId, [FromBody] RequestActionModel model)
         {
             var request = await _travelRequestRepository.GetRequestByIdAsync(requestId);
             if (request == null)
@@ -231,15 +232,14 @@ namespace TravelDesk.Controllers
             }
 
             request.Status = TravelRequestStatus.Approved;
-            request.Comments = comments;
+            request.Comments = model.Comments; 
             await _travelRequestRepository.UpdateRequestAsync(request);
 
             return NoContent();
         }
 
-        // Reject a travel request
         [HttpPost("{requestId}/reject")]
-        public async Task<IActionResult> RejectRequestAsync(int requestId, [FromBody] string comments)
+        public async Task<IActionResult> RejectRequestAsync(int requestId, [FromBody] RequestActionModel model)
         {
             var request = await _travelRequestRepository.GetRequestByIdAsync(requestId);
             if (request == null)
@@ -248,15 +248,14 @@ namespace TravelDesk.Controllers
             }
 
             request.Status = TravelRequestStatus.Rejected;
-            request.Comments = comments;
+            request.Comments = model.Comments; 
             await _travelRequestRepository.UpdateRequestAsync(request);
 
             return NoContent();
         }
 
-        // Return a request to the employee
         [HttpPost("{requestId}/return")]
-        public async Task<IActionResult> ReturnRequestAsync(int requestId, [FromBody] string comments)
+        public async Task<IActionResult> ReturnRequestAsync(int requestId, [FromBody] RequestActionModel model)
         {
             var request = await _travelRequestRepository.GetRequestByIdAsync(requestId);
             if (request == null)
@@ -264,8 +263,8 @@ namespace TravelDesk.Controllers
                 return NotFound();
             }
 
-            request.Status = TravelRequestStatus.Rejected; // Adjust status if needed
-            request.Comments = comments;
+          //  request.Status = TravelRequestStatus.Returned; // Assuming 'Returned' status exists
+            request.Comments = model.Comments; 
             await _travelRequestRepository.UpdateRequestAsync(request);
 
             return NoContent();

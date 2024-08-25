@@ -8,7 +8,6 @@ namespace TravelDesk.Context
     {
         public DbContexts(DbContextOptions<DbContexts> options):base(
             options) { }
-        //public DbContexts() { }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         //public DbSet<Project> Projects { get; set; }
@@ -87,12 +86,12 @@ namespace TravelDesk.Context
            .HasOne(tr => tr.User)
            .WithMany(u => u.TravelRequests)
            .HasForeignKey(tr => tr.UserId)
-           .OnDelete(DeleteBehavior.Restrict); // Optional: Configure the delete behavior
+           .OnDelete(DeleteBehavior.Restrict); 
 
             // Define the relationship for Manager -> TravelRequest
             modelBuilder.Entity<TravelRequest>()
                 .HasOne(tr => tr.Manager)
-                .WithMany() // No inverse navigation property
+                .WithMany() 
                 .HasForeignKey(tr => tr.ManagerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
