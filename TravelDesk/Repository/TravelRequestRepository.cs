@@ -54,8 +54,8 @@ namespace TravelDesk.Repository
         {
             return await _context.TravelRequests
         .Where(tr => tr.ManagerId == managerId)
-        .Include(tr => tr.Manager) // Ensure Manager is included
-        .Include(tr => tr.User)    // Ensure User is included if needed
+        .Include(tr => tr.Manager) 
+        .Include(tr => tr.User)   
         .ToListAsync();
         }
 

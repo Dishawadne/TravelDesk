@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TravelDesk.Migrations
 {
     /// <inheritdoc />
-    public partial class addd : Migration
+    public partial class addedHr : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Comments",
+                name: "TicketUrl",
                 table: "TravelRequests",
                 type: "nvarchar(max)",
                 nullable: true);
@@ -22,35 +22,35 @@ namespace TravelDesk.Migrations
                 keyColumn: "RoleId",
                 keyValue: 1,
                 column: "CreatedOn",
-                value: new DateTime(2024, 8, 24, 11, 16, 3, 6, DateTimeKind.Local).AddTicks(6213));
+                value: new DateTime(2024, 8, 25, 15, 40, 53, 945, DateTimeKind.Local).AddTicks(9259));
 
             migrationBuilder.UpdateData(
                 table: "Roles",
                 keyColumn: "RoleId",
                 keyValue: 2,
                 column: "CreatedOn",
-                value: new DateTime(2024, 8, 24, 11, 16, 3, 6, DateTimeKind.Local).AddTicks(6218));
+                value: new DateTime(2024, 8, 25, 15, 40, 53, 945, DateTimeKind.Local).AddTicks(9262));
 
             migrationBuilder.UpdateData(
                 table: "Roles",
                 keyColumn: "RoleId",
                 keyValue: 3,
                 column: "CreatedOn",
-                value: new DateTime(2024, 8, 24, 11, 16, 3, 6, DateTimeKind.Local).AddTicks(6221));
+                value: new DateTime(2024, 8, 25, 15, 40, 53, 945, DateTimeKind.Local).AddTicks(9264));
 
             migrationBuilder.UpdateData(
                 table: "Roles",
                 keyColumn: "RoleId",
                 keyValue: 4,
                 column: "CreatedOn",
-                value: new DateTime(2024, 8, 24, 11, 16, 3, 6, DateTimeKind.Local).AddTicks(6223));
+                value: new DateTime(2024, 8, 25, 15, 40, 53, 945, DateTimeKind.Local).AddTicks(9266));
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Comments",
+                name: "TicketUrl",
                 table: "TravelRequests");
 
             migrationBuilder.UpdateData(
@@ -58,28 +58,28 @@ namespace TravelDesk.Migrations
                 keyColumn: "RoleId",
                 keyValue: 1,
                 column: "CreatedOn",
-                value: new DateTime(2024, 8, 23, 19, 43, 42, 172, DateTimeKind.Local).AddTicks(9803));
+                value: new DateTime(2024, 8, 25, 12, 36, 58, 179, DateTimeKind.Local).AddTicks(5570));
 
             migrationBuilder.UpdateData(
                 table: "Roles",
                 keyColumn: "RoleId",
                 keyValue: 2,
                 column: "CreatedOn",
-                value: new DateTime(2024, 8, 23, 19, 43, 42, 172, DateTimeKind.Local).AddTicks(9860));
+                value: new DateTime(2024, 8, 25, 12, 36, 58, 179, DateTimeKind.Local).AddTicks(5586));
 
             migrationBuilder.UpdateData(
                 table: "Roles",
                 keyColumn: "RoleId",
                 keyValue: 3,
                 column: "CreatedOn",
-                value: new DateTime(2024, 8, 23, 19, 43, 42, 172, DateTimeKind.Local).AddTicks(9898));
+                value: new DateTime(2024, 8, 25, 12, 36, 58, 179, DateTimeKind.Local).AddTicks(5594));
 
             migrationBuilder.UpdateData(
                 table: "Roles",
                 keyColumn: "RoleId",
                 keyValue: 4,
                 column: "CreatedOn",
-                value: new DateTime(2024, 8, 23, 19, 43, 42, 172, DateTimeKind.Local).AddTicks(9933));
+                value: new DateTime(2024, 8, 25, 12, 36, 58, 179, DateTimeKind.Local).AddTicks(5602));
         }
     }
 }

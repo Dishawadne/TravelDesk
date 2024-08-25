@@ -8,25 +8,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TravelDesk.Migrations
 {
     /// <inheritdoc />
-    public partial class inital : Migration
+    public partial class initalmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "CommonTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CommonTypes", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
@@ -79,8 +65,7 @@ namespace TravelDesk.Migrations
                         name: "FK_Users_Users_ManagerId",
                         column: x => x.ManagerId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -91,13 +76,15 @@ namespace TravelDesk.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     ReasonForTravelling = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ManagerId = table.Column<int>(type: "int", nullable: false),
+                    ManagerId = table.Column<int>(type: "int", nullable: true),
                     ProjectName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FromLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ToLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FromDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ToDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     AddharCard = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -124,10 +111,10 @@ namespace TravelDesk.Migrations
                 columns: new[] { "RoleId", "CreatedBy", "CreatedOn", "IsActive", "ModifiedBy", "ModifiedOn", "RoleName" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 8, 22, 9, 22, 49, 330, DateTimeKind.Local).AddTicks(2252), true, null, null, "Admin" },
-                    { 2, 1, new DateTime(2024, 8, 22, 9, 22, 49, 330, DateTimeKind.Local).AddTicks(2256), true, null, null, "HR TravelAdmin" },
-                    { 3, 1, new DateTime(2024, 8, 22, 9, 22, 49, 330, DateTimeKind.Local).AddTicks(2258), true, null, null, "Manager" },
-                    { 4, 1, new DateTime(2024, 8, 22, 9, 22, 49, 330, DateTimeKind.Local).AddTicks(2259), true, null, null, "Employee" }
+                    { 1, 1, new DateTime(2024, 8, 25, 12, 36, 58, 179, DateTimeKind.Local).AddTicks(5570), true, null, null, "Admin" },
+                    { 2, 1, new DateTime(2024, 8, 25, 12, 36, 58, 179, DateTimeKind.Local).AddTicks(5586), true, null, null, "HR TravelAdmin" },
+                    { 3, 1, new DateTime(2024, 8, 25, 12, 36, 58, 179, DateTimeKind.Local).AddTicks(5594), true, null, null, "Manager" },
+                    { 4, 1, new DateTime(2024, 8, 25, 12, 36, 58, 179, DateTimeKind.Local).AddTicks(5602), true, null, null, "Employee" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -154,9 +141,6 @@ namespace TravelDesk.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "CommonTypes");
-
             migrationBuilder.DropTable(
                 name: "TravelRequests");
 

@@ -11,9 +11,10 @@ namespace TravelDesk.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         //public DbSet<Project> Projects { get; set; }
-        public DbSet<CommonTypeRef> CommonTypes { get; set; }
+        //public DbSet<CommonTypeRef> CommonTypes { get; set; }
 
        public DbSet<TravelRequest> TravelRequests { get; set; }
+        
        
       
 

@@ -12,8 +12,8 @@ using TravelDesk.Context;
 namespace TravelDesk.Migrations
 {
     [DbContext(typeof(DbContexts))]
-    [Migration("20240822035249_inital")]
-    partial class inital
+    [Migration("20240825101054_added Hr")]
+    partial class addedHr
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,27 +24,6 @@ namespace TravelDesk.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("TravelDesk.Models.CommonTypeRef", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CommonTypes");
-                });
 
             modelBuilder.Entity("TravelDesk.Models.Role", b =>
                 {
@@ -82,7 +61,7 @@ namespace TravelDesk.Migrations
                         {
                             RoleId = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2024, 8, 22, 9, 22, 49, 330, DateTimeKind.Local).AddTicks(2252),
+                            CreatedOn = new DateTime(2024, 8, 25, 15, 40, 53, 945, DateTimeKind.Local).AddTicks(9259),
                             IsActive = true,
                             RoleName = "Admin"
                         },
@@ -90,7 +69,7 @@ namespace TravelDesk.Migrations
                         {
                             RoleId = 2,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2024, 8, 22, 9, 22, 49, 330, DateTimeKind.Local).AddTicks(2256),
+                            CreatedOn = new DateTime(2024, 8, 25, 15, 40, 53, 945, DateTimeKind.Local).AddTicks(9262),
                             IsActive = true,
                             RoleName = "HR TravelAdmin"
                         },
@@ -98,7 +77,7 @@ namespace TravelDesk.Migrations
                         {
                             RoleId = 3,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2024, 8, 22, 9, 22, 49, 330, DateTimeKind.Local).AddTicks(2258),
+                            CreatedOn = new DateTime(2024, 8, 25, 15, 40, 53, 945, DateTimeKind.Local).AddTicks(9264),
                             IsActive = true,
                             RoleName = "Manager"
                         },
@@ -106,7 +85,7 @@ namespace TravelDesk.Migrations
                         {
                             RoleId = 4,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2024, 8, 22, 9, 22, 49, 330, DateTimeKind.Local).AddTicks(2259),
+                            CreatedOn = new DateTime(2024, 8, 25, 15, 40, 53, 945, DateTimeKind.Local).AddTicks(9266),
                             IsActive = true,
                             RoleName = "Employee"
                         });
@@ -124,17 +103,20 @@ namespace TravelDesk.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Comments")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FromDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Location")
+                    b.Property<string>("FromLocation")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ManagerId")
+                    b.Property<int?>("ManagerId")
                         .HasColumnType("int");
 
                     b.Property<string>("ModifiedBy")
@@ -154,8 +136,15 @@ namespace TravelDesk.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<string>("TicketUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("ToDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ToLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -244,11 +233,10 @@ namespace TravelDesk.Migrations
                     b.HasOne("TravelDesk.Models.User", "Manager")
                         .WithMany()
                         .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("TravelDesk.Models.User", "User")
-                        .WithMany()
+                        .WithMany("TravelRequests")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -262,8 +250,7 @@ namespace TravelDesk.Migrations
                 {
                     b.HasOne("TravelDesk.Models.User", "Manager")
                         .WithMany()
-                        .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("ManagerId");
 
                     b.HasOne("TravelDesk.Models.Role", "Role")
                         .WithMany("Users")
@@ -279,6 +266,11 @@ namespace TravelDesk.Migrations
             modelBuilder.Entity("TravelDesk.Models.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("TravelDesk.Models.User", b =>
+                {
+                    b.Navigation("TravelRequests");
                 });
 #pragma warning restore 612, 618
         }

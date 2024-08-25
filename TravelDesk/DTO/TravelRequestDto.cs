@@ -8,7 +8,8 @@ namespace TravelDesk.DTO
         public string ReasonForTravelling { get; set; }
         public int ManagerId { get; set; }
         public string ProjectName { get; set; }
-        public string Location { get; set; }
+        public string FromLocation { get; set; }
+        public string ToLocation { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public TravelRequestStatus Status { get; set; } = TravelRequestStatus.Pending;

@@ -8,8 +8,6 @@ namespace TravelDesk.Models
     {
         [Key]
         public int RequestId { get; set; }
-
-        
         public int UserId { get; set; }
         public User? User { get; set; } // Auto-fill with User info (Name, Department)
 
@@ -21,7 +19,11 @@ namespace TravelDesk.Models
         public string ProjectName { get; set; }
 
         [Required]
-        public string Location { get; set; }
+        public string FromLocation { get; set; }
+
+        [Required]
+        public string ToLocation { get; set; }
+
 
         [Required]
         public DateTime FromDate { get; set; }
@@ -36,6 +38,9 @@ namespace TravelDesk.Models
 
 
        public string? Comments { get; set; }
+
+    
+        public string? TicketUrl { get; set; }
         // Audit fields
         [Required]
         public DateTime CreatedOn { get; set; } = DateTime.Now;
