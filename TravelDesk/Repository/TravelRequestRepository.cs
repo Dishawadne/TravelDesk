@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TravelDesk.Context;
+using TravelDesk.DTO;
 using TravelDesk.IRepository;
 using TravelDesk.Models;
 
@@ -50,14 +51,43 @@ namespace TravelDesk.Repository
                 await _context.SaveChangesAsync();
             }
         }
-        public async Task<IEnumerable<TravelRequest>> GetRequestsByManagerIdAsync(int managerId)
+        //public async Task<IEnumerable<TravelRequest>> GetRequestsByManagerIdAsync(int managerId)
+        //{
+        //    return await _context.TravelRequests
+        //.Where(tr => tr.ManagerId == managerId)
+        //.Include(tr => tr.Manager) 
+        //.Include(tr => tr.User)   
+        //.ToListAsync();
+        //}
+        // Step 1: Change the return type to match the desired output
+        public async Task<IEnumerable<TravelRequestHistoryDto>> GetRequestsByManagerIdAsync(int managerId)
         {
-            return await _context.TravelRequests
-        .Where(tr => tr.ManagerId == managerId)
-        .Include(tr => tr.Manager) 
-        .Include(tr => tr.User)   
-        .ToListAsync();
+          
+            var travelRequests = await _context.TravelRequests
+                .Where(tr => tr.ManagerId == managerId)
+                .Include(tr => tr.Manager)
+                .Include(tr => tr.User)
+                .ToListAsync();
+
+           
+            var travelRequestHistory = travelRequests.Select(tr => new TravelRequestHistoryDto
+            {
+                RequestId = tr.RequestId, 
+                ProjectName = tr.ProjectName,
+                FromLocation = tr.FromLocation,
+                ToLocation = tr.ToLocation,
+                ReasonForTravelling = tr.ReasonForTravelling,
+                Status = tr.Status.ToString(), 
+                FromDate = tr.FromDate,
+                ToDate = tr.ToDate,
+                UserName = $"{tr.User.FirstName} {tr.User.LastName}"
+                //CreatedOn = tr.CreatedOn
+            }).ToList();
+
+            // Step 4: Return the DTO list
+            return travelRequestHistory;
         }
+
 
         public async Task<TravelRequest> GetRequestByIdAsync(int requestId)
         {

@@ -1,4 +1,5 @@
-﻿using TravelDesk.Models;
+﻿using TravelDesk.DTO;
+using TravelDesk.Models;
 
 namespace TravelDesk.IRepository
 {
@@ -12,7 +13,7 @@ namespace TravelDesk.IRepository
         Task DeleteTravelRequestAsync(int id);
 
 
-        Task<IEnumerable<TravelRequest>> GetRequestsByManagerIdAsync(int managerId);
+        Task<IEnumerable<TravelRequestHistoryDto>> GetRequestsByManagerIdAsync(int managerId);
         Task<TravelRequest> GetRequestByIdAsync(int requestId);
         Task UpdateRequestAsync(TravelRequest request);
     }

@@ -17,14 +17,14 @@ namespace TravelDesk.Controllers
                 _context = context;
             }
 
-            // Endpoint to retrieve all travel requests
+            
             [HttpGet("GetAllRequests")]
             public async Task<IActionResult> GetAllRequests()
             {
                 try
                 {
                     var travelRequests = await _context.TravelRequests
-
+                    .Include(tr => tr.User)
                         .ToListAsync();
 
                     if (travelRequests == null || travelRequests.Count == 0)

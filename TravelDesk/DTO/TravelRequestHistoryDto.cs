@@ -10,6 +10,9 @@
         public string Status { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
+
+        public string? Comments { get; set; }
         public DateTime CreatedOn { get; set; }
+        public string UserName { get; set; }
     }
 }
