@@ -51,15 +51,6 @@ namespace TravelDesk.Repository
                 await _context.SaveChangesAsync();
             }
         }
-        //public async Task<IEnumerable<TravelRequest>> GetRequestsByManagerIdAsync(int managerId)
-        //{
-        //    return await _context.TravelRequests
-        //.Where(tr => tr.ManagerId == managerId)
-        //.Include(tr => tr.Manager) 
-        //.Include(tr => tr.User)   
-        //.ToListAsync();
-        //}
-        // Step 1: Change the return type to match the desired output
         public async Task<IEnumerable<TravelRequestHistoryDto>> GetRequestsByManagerIdAsync(int managerId)
         {
           
@@ -105,73 +96,5 @@ namespace TravelDesk.Repository
     }
 }
 
-
-//public async Task<IEnumerable<TravelRequest>> GetRequestsByEmployeeIdAsync(int employeeId)
-//{
-//    return await _context.TravelRequests
-//        .Where(tr => tr.UserId == employeeId)
-//        .Include(tr => tr.User)
-//        .ToListAsync();
-//}
-
-//// Create a new travel request
-//public async Task<TravelRequest> CreateRequestAsync(TravelRequest request)
-//{
-//    _context.TravelRequests.Add(request);
-//    await _context.SaveChangesAsync();
-//    return request;
-//}
-
-//// Update an existing travel request
-//public async Task UpdateRequestAsync(TravelRequest request)
-//{
-//    var existingRequest = await _context.TravelRequests.FindAsync(request.RequestId);
-//    if (existingRequest != null)
-//    {
-//        existingRequest.ProjectName = request.ProjectName;
-//        existingRequest.Location = request.Location;
-//        existingRequest.FromDate = request.FromDate;
-//        existingRequest.ToDate = request.ToDate;
-//        existingRequest.Status = request.Status;
-//        existingRequest.ModifiedOn = request.ModifiedOn;
-//        existingRequest.ModifiedBy = request.ModifiedBy;
-
-//        _context.TravelRequests.Update(existingRequest);
-//        await _context.SaveChangesAsync();
-//    }
-//}
-
-//// Approve a travel request
-//public async Task ApproveRequestAsync(int requestId, int managerId)
-//{
-//    var request = await _context.TravelRequests.FindAsync(requestId);
-//    if (request != null)
-//    {
-//        request.Status = TravelRequestStatus.Approved;
-
-//        request.ModifiedBy = managerId.ToString();
-//        request.ModifiedOn = DateTime.Now;
-//        _context.TravelRequests.Update(request);
-//        await _context.SaveChangesAsync();
-//    }
-//}
-
-//// Reject a travel request
-//public async Task RejectRequestAsync(int requestId, int managerId)
-//{
-//    var request = await _context.TravelRequests.FindAsync(requestId);
-//    if (request != null)
-//    {
-//        request.Status = TravelRequestStatus.Rejected;
-//        request.ModifiedBy = managerId.ToString();
-//        request.ModifiedOn = DateTime.Now;
-//        _context.TravelRequests.Update(request);
-//        await _context.SaveChangesAsync();
-//    }
-
-
-
-
-//}
 
 

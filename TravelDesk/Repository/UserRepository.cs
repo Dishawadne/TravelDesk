@@ -19,9 +19,10 @@ namespace TravelDesk.Repository
         {
             return _context.Users.Include(u => u.Role)
                 .Include(u => u.Manager)
-                .Where(u => u.RoleId != 1)
+                .Where(u => u.RoleId != 1 && u.IsActive)  
                 .ToList();
         }
+
 
         public User GetUserById(int id)
         {
@@ -59,9 +60,10 @@ namespace TravelDesk.Repository
         public bool DeleteUser(int id)
         {
             var user = _context.Users.Find(id);
-            if (user != null)
+            if (user != null && user.IsActive)
             {
-                _context.Users.Remove(user);
+                user.IsActive = false;
+                user.ModifiedOn = DateTime.Now; 
                 _context.SaveChanges();
                 return true;
             }

@@ -17,36 +17,49 @@ namespace TravelDesk.Controllers
                 _context = context;
             }
 
-            
-            [HttpGet("GetAllRequests")]
-            public async Task<IActionResult> GetAllRequests()
+        [HttpGet("GetAllRequests")]
+        public async Task<IActionResult> GetAllRequests()
+        {
+            try
             {
-                try
-                {
-                    var travelRequests = await _context.TravelRequests
+                var travelRequests = await _context.TravelRequests
                     .Include(tr => tr.User)
-                        .ToListAsync();
-
-                    if (travelRequests == null || travelRequests.Count == 0)
+                    .Select(tr => new
                     {
-                        return NotFound("No travel requests found.");
-                    }
+                        tr.RequestId,
+                        tr.UserId,
+                        UserName = tr.User.FirstName + " " + (tr.User.LastName ?? ""),
+                        tr.ProjectName,
+                        tr.ReasonForTravelling,
+                        tr.FromDate,
+                        tr.ToDate,
+                        tr.FromLocation,
+                        tr.ToLocation,
+                        tr.Comments,
+                        tr.TicketUrl,
+                        Status = tr.Status.ToString() 
+                    })
+                    .ToListAsync();
 
-                    return Ok(travelRequests);
-                }
-                catch (Exception ex)
+                if (travelRequests == null || travelRequests.Count == 0)
                 {
-                    return StatusCode(500, $"Internal server error: {ex.Message}");
+                    return NotFound("No travel requests found.");
                 }
-            }
 
-            [HttpPost("BookTicket/{travelRequestId}")]
+                return Ok(travelRequests);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        [HttpPost("BookTicket/{travelRequestId}")]
             public async Task<IActionResult> BookTicket(int travelRequestId, [FromBody] BookingDetails bookingDetails)
             {
                 try
                 {
                     var travelRequest = await _context.TravelRequests
-                        .Include(tr => tr.User) // Include user details
+                        .Include(tr => tr.User) 
                         .FirstOrDefaultAsync(tr => tr.RequestId == travelRequestId);
 
                     if (travelRequest == null)
