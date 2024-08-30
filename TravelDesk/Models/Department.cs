@@ -14,7 +14,8 @@
         Rejected,//2
         Booked,//3
         ReturnedToManager,//4
-        ReturnedToEmployee,//5
-        Completed//6
+        ReturnedToEmployee,
+        Completed,
+        Updated
     }
 }

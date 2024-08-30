@@ -18,7 +18,7 @@ namespace TravelDesk.Repository
         {
             var user = _context.Users.SingleOrDefault(u => u.Email == email && u.Password == password);
 
-            return user; // Return null if user is not found
+            return user; 
         }
     }
 }

@@ -5,7 +5,6 @@ namespace TravelDesk.IRepository
 {
     public interface ITravelRequestRepository
     {
-        
         Task<TravelRequest> GetTravelRequestByIdAsync(int id);
         Task<IEnumerable<TravelRequest>> GetAllTravelRequestsAsync();
         Task CreateTravelRequestAsync(TravelRequest travelRequest);

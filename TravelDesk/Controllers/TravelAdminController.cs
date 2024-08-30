@@ -5,18 +5,15 @@ using TravelDesk.Models;
 
 namespace TravelDesk.Controllers
 {
-   
         [ApiController]
         [Route("api/[controller]")]
         public class TravelAdminController : ControllerBase
         {
             private readonly DbContexts _context;
-
             public TravelAdminController(DbContexts context)
             {
                 _context = context;
             }
-
         [HttpGet("GetAllRequests")]
         public async Task<IActionResult> GetAllRequests()
         {
@@ -68,9 +65,7 @@ namespace TravelDesk.Controllers
                     }
 
                     travelRequest.Status = TravelRequestStatus.Booked;
-                    travelRequest.Comments = bookingDetails.Comments; // Update comments
-
-                    // Save the booking confirmation URL if available
+                    travelRequest.Comments = bookingDetails.Comments; 
                     if (!string.IsNullOrEmpty(bookingDetails.TicketUrl))
                     {
                         travelRequest.TicketUrl = bookingDetails.TicketUrl;
@@ -78,8 +73,6 @@ namespace TravelDesk.Controllers
 
                     _context.TravelRequests.Update(travelRequest);
                     await _context.SaveChangesAsync();
-
-                    // Notify the employee via the history update
                     return Ok("Booking confirmed successfully.");
                 }
                 catch (Exception ex)
@@ -87,7 +80,6 @@ namespace TravelDesk.Controllers
                     return StatusCode(500, $"Internal server error: {ex.Message}");
                 }
             }
-
             [HttpPost("ReturnToManager/{travelRequestId}")]
             public async Task<IActionResult> ReturnToManager(int travelRequestId, [FromBody] BookingDetails bookingDetails)
             {
@@ -100,15 +92,10 @@ namespace TravelDesk.Controllers
                     {
                         return NotFound("Travel request not found.");
                     }
-
-                    // Reassign request to manager
                     travelRequest.Status = TravelRequestStatus.ReturnedToManager;
                     travelRequest.Comments = bookingDetails.Comments;
-
-
                     _context.TravelRequests.Update(travelRequest);
                     await _context.SaveChangesAsync();
-
                     return Ok("Request returned to manager successfully.");
                 }
                 catch (Exception ex)
@@ -116,7 +103,6 @@ namespace TravelDesk.Controllers
                     return StatusCode(500, $"Internal server error: {ex.Message}");
                 }
             }
-
             [HttpPost("ReturnToEmployee/{travelRequestId}")]
             public async Task<IActionResult> ReturnToEmployee(int travelRequestId, [FromBody] BookingDetails bookingDetails)
             {
@@ -124,20 +110,14 @@ namespace TravelDesk.Controllers
                 {
                     var travelRequest = await _context.TravelRequests
                         .FirstOrDefaultAsync(tr => tr.RequestId == travelRequestId);
-
                     if (travelRequest == null)
                     {
                         return NotFound("Travel request not found.");
                     }
-
-                    // Reassign request to employee
                     travelRequest.Status = TravelRequestStatus.ReturnedToEmployee;
                     travelRequest.Comments = bookingDetails.Comments;
-
-
                     _context.TravelRequests.Update(travelRequest);
                     await _context.SaveChangesAsync();
-
                     return Ok("Request returned to employee successfully.");
                 }
                 catch (Exception ex)
@@ -145,29 +125,20 @@ namespace TravelDesk.Controllers
                     return StatusCode(500, $"Internal server error: {ex.Message}");
                 }
             }
-
             [HttpPost("CloseRequest/{travelRequestId}")]
             public async Task<IActionResult> CloseRequest(int travelRequestId, [FromBody] BookingDetails bookingDetails)
-            {
-                // Ensure that CommentsRequest class matches the expected JSON payload
+        { 
                 try
                 {
                     var travelRequest = await _context.TravelRequests
                         .FirstOrDefaultAsync(tr => tr.RequestId == travelRequestId);
-
                     if (travelRequest == null)
                     {
                         return NotFound("Travel request not found.");
                     }
-
-                    // Close the request with complete status
                     travelRequest.Status = TravelRequestStatus.Completed;
-                    //travelRequest.Comments = bookingDetails.Comments;
-
-
                     _context.TravelRequests.Update(travelRequest);
                     await _context.SaveChangesAsync();
-
                     return Ok("Request closed successfully.");
                 }
                 catch (Exception ex)

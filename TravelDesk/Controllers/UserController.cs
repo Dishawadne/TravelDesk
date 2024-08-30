@@ -20,13 +20,11 @@ namespace TravelDesk.Controllers
             _userRepository = userRepository;
             _context = context;
         }
-
         [HttpGet]
         public ActionResult<IEnumerable<User>> GetUsers()
         {
             return Ok(_userRepository.GetUsers());
         }
-
         [HttpGet("{id}")]
         public ActionResult<User> GetUserById(int id)
         {
@@ -37,14 +35,12 @@ namespace TravelDesk.Controllers
             }
             return Ok(user);
         }
-
         [HttpPost]
         public ActionResult<User> AddUser(User user)
         {
             var createdUser = _userRepository.AddUser(user);
             return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);
         }
-
         [HttpPut("{id}")]
         public ActionResult<User> UpdateUser(int id, User user)
         {
@@ -55,7 +51,6 @@ namespace TravelDesk.Controllers
             }
             return Ok(updatedUser);
         }
-
         [HttpDelete("{id}")]
         public ActionResult DeleteUser(int id)
         {
@@ -66,7 +61,6 @@ namespace TravelDesk.Controllers
             }
             return NoContent();
         }
-
         [HttpGet("managers")]
         public async Task<ActionResult<IEnumerable<User>>> GetManagers()
         {
@@ -75,8 +69,6 @@ namespace TravelDesk.Controllers
                 .ToListAsync();
 
             return Ok(managers);
-
         }
-
     }
 }

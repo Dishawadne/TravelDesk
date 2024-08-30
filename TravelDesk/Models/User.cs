@@ -33,35 +33,23 @@ namespace TravelDesk.Models
         public string Password { get; set; }
 
         [Required]
-        
         public string Department { get; set; }
 
         [Required]
         public int RoleId { get; set; }
         public Role? Role { get; set; }
-
-       
         public int? ManagerId { get; set; }
-
        // [ForeignKey("ManagerId")]
         public User? Manager { get; set; }
         [JsonIgnore]
         public ICollection<TravelRequest>? TravelRequests { get; set; }
-
-        // Audit fields
         [Required]
         public int CreatedBy { get; set; }
-
         [Required]
         public DateTime CreatedOn { get; set; } = DateTime.Now;
-
         public string? ModifiedBy { get; set; }
-
         public DateTime? ModifiedOn { get; set; }
-
         [Required]
         public bool IsActive { get; set; } = true;
-
-       
     }
 }

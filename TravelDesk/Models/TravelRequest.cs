@@ -9,44 +9,28 @@ namespace TravelDesk.Models
         [Key]
         public int RequestId { get; set; }
         public int UserId { get; set; }
-        public User? User { get; set; } // Auto-fill with User info (Name, Department)
-
+        public User? User { get; set; } 
         public string ReasonForTravelling { get; set; }
         public int? ManagerId {  get; set; }
         public User? Manager { get; set; }
-
         [Required]
         public string ProjectName { get; set; }
-
         [Required]
         public string FromLocation { get; set; }
-
         [Required]
         public string ToLocation { get; set; }
-
-
         [Required]
         public DateTime FromDate { get; set; }
-
         [Required]
         public DateTime ToDate { get; set; }
-
         [Required]
-        public TravelRequestStatus Status { get; set; } = TravelRequestStatus.Pending; // Default status is "Pending"
-
-        public string AddharCard { get; set; } // Assume this will store the path to the file
-
-
+        public TravelRequestStatus Status { get; set; } = TravelRequestStatus.Pending; 
+        public string AddharCard { get; set; } 
        public string? Comments { get; set; }
-
-    
         public string? TicketUrl { get; set; }
-        // Audit fields
         [Required]
         public DateTime CreatedOn { get; set; } = DateTime.Now;
-
         public string? ModifiedBy { get; set; }
         public DateTime? ModifiedOn { get; set;}
-        
     }
 }

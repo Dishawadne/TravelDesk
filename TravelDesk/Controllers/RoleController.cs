@@ -18,7 +18,7 @@ namespace TravelDesk.Controllers
         public ActionResult<IEnumerable<Role>> GetRoles()
         {
             var roles = _context.Roles
-                .Where(role => role.RoleName != "admin") // Filter out admin role
+                .Where(role => role.RoleName != "admin") 
                 .Select(role => new Role
                 {
                     RoleId = role.RoleId,

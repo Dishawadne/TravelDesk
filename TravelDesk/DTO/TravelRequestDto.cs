@@ -13,7 +13,6 @@ namespace TravelDesk.DTO
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public TravelRequestStatus Status { get; set; } = TravelRequestStatus.Pending;
-
         public IFormFile? AddharCard { get; set; }
         public string? Comments { get; set; }
     }
