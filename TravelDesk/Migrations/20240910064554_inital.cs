@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TravelDesk.Migrations
 {
     /// <inheritdoc />
-    public partial class initalmigration : Migration
+    public partial class inital : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -111,10 +111,10 @@ namespace TravelDesk.Migrations
                 columns: new[] { "RoleId", "CreatedBy", "CreatedOn", "IsActive", "ModifiedBy", "ModifiedOn", "RoleName" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 8, 25, 12, 36, 58, 179, DateTimeKind.Local).AddTicks(5570), true, null, null, "Admin" },
-                    { 2, 1, new DateTime(2024, 8, 25, 12, 36, 58, 179, DateTimeKind.Local).AddTicks(5586), true, null, null, "HR TravelAdmin" },
-                    { 3, 1, new DateTime(2024, 8, 25, 12, 36, 58, 179, DateTimeKind.Local).AddTicks(5594), true, null, null, "Manager" },
-                    { 4, 1, new DateTime(2024, 8, 25, 12, 36, 58, 179, DateTimeKind.Local).AddTicks(5602), true, null, null, "Employee" }
+                    { 1, 1, new DateTime(2024, 9, 10, 12, 15, 54, 426, DateTimeKind.Local).AddTicks(4946), true, null, null, "Admin" },
+                    { 2, 1, new DateTime(2024, 9, 10, 12, 15, 54, 426, DateTimeKind.Local).AddTicks(4949), true, null, null, "TravelAdmin" },
+                    { 3, 1, new DateTime(2024, 9, 10, 12, 15, 54, 426, DateTimeKind.Local).AddTicks(4950), true, null, null, "Manager" },
+                    { 4, 1, new DateTime(2024, 9, 10, 12, 15, 54, 426, DateTimeKind.Local).AddTicks(4951), true, null, null, "Employee" }
                 });
 
             migrationBuilder.CreateIndex(

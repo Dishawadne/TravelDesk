@@ -25,7 +25,7 @@ namespace TravelDesk.Context
                   new Role
                   {
                       RoleId = 2,
-                      RoleName = "HR TravelAdmin",
+                      RoleName = "TravelAdmin",
                       CreatedBy = 1,
                       CreatedOn = DateTime.Now,
                       IsActive = true

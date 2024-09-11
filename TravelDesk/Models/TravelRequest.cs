@@ -27,7 +27,7 @@ namespace TravelDesk.Models
         public TravelRequestStatus Status { get; set; } = TravelRequestStatus.Pending; 
         public string AddharCard { get; set; } 
        public string? Comments { get; set; }
-        public string? TicketUrl { get; set; }
+        //public string? TicketUrl { get; set; }
         [Required]
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public string? ModifiedBy { get; set; }

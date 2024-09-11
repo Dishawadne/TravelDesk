@@ -33,7 +33,7 @@ namespace TravelDesk.Controllers
                         tr.FromLocation,
                         tr.ToLocation,
                         tr.Comments,
-                        tr.TicketUrl,
+                      //  tr.TicketUrl,
                         Status = tr.Status.ToString() 
                     })
                     .ToListAsync();
@@ -66,10 +66,10 @@ namespace TravelDesk.Controllers
 
                     travelRequest.Status = TravelRequestStatus.Booked;
                     travelRequest.Comments = bookingDetails.Comments; 
-                    if (!string.IsNullOrEmpty(bookingDetails.TicketUrl))
-                    {
-                        travelRequest.TicketUrl = bookingDetails.TicketUrl;
-                    }
+                    //if (!string.IsNullOrEmpty(bookingDetails.TicketUrl))
+                    //{
+                    //    travelRequest.TicketUrl = bookingDetails.TicketUrl;
+                    //}
 
                     _context.TravelRequests.Update(travelRequest);
                     await _context.SaveChangesAsync();

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using iTextSharp.text.pdf;
+using iTextSharp.text;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -231,5 +233,177 @@ namespace TravelDesk.Controllers
             await _travelRequestRepository.UpdateRequestAsync(request);
             return NoContent();
         }
+        //[HttpGet("DownloadTicket/{travelRequestId}")]
+        //public IActionResult DownloadTicket(int travelRequestId)
+        //{
+        //    try
+        //    {
+        //        var travelRequest = _context.TravelRequests
+        //            .Include(tr => tr.User)
+        //            .FirstOrDefault(tr => tr.RequestId == travelRequestId);
+
+        //        if (travelRequest == null)
+        //        {
+        //            return NotFound("Travel request not found.");
+        //        }
+
+        //        using (var stream = new MemoryStream())
+        //        {
+        //            var pdfDoc = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4, 25, 25, 30, 30);
+        //            PdfWriter.GetInstance(pdfDoc, stream);
+        //            pdfDoc.Open();
+
+        //            var titleFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 18, iTextSharp.text.Font.BOLD);
+        //            var bodyFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 12);
+
+        //            pdfDoc.Add(new Paragraph("Travel Desk", titleFont));
+        //            pdfDoc.Add(new Paragraph($"Request ID: {travelRequest.RequestId}", bodyFont));
+        //            pdfDoc.Add(new Paragraph($"User ID: {travelRequest.UserId}", bodyFont));
+        //            pdfDoc.Add(new Paragraph($"User Name: {travelRequest.User.FirstName} {travelRequest.User.LastName}", bodyFont));
+        //            pdfDoc.Add(new Paragraph($"Project Name: {travelRequest.ProjectName}", bodyFont));
+        //            pdfDoc.Add(new Paragraph($"Reason for Travelling: {travelRequest.ReasonForTravelling}", bodyFont));
+        //            pdfDoc.Add(new Paragraph($"From Date: {travelRequest.FromDate.ToShortDateString()}", bodyFont));
+        //            pdfDoc.Add(new Paragraph($"To Date: {travelRequest.ToDate.ToShortDateString()}", bodyFont));
+        //            pdfDoc.Add(new Paragraph($"From Location: {travelRequest.FromLocation}", bodyFont));
+        //            pdfDoc.Add(new Paragraph($"To Location: {travelRequest.ToLocation}", bodyFont));
+        //            pdfDoc.Add(new Paragraph($"Comments: {travelRequest.Comments}", bodyFont));
+
+
+        //            pdfDoc.Close();
+
+        //            var pdfBytes = stream.ToArray();
+        //            return File(pdfBytes, "application/pdf", "TravelRequestTicket.pdf");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, $"Internal server error: {ex.Message}");
+        //    }
+        //}
+        [HttpGet("DownloadTicket/{travelRequestId}")]
+        public IActionResult DownloadTicket(int travelRequestId)
+        {
+            try
+            {
+                var travelRequest = _context.TravelRequests
+                    .Include(tr => tr.User)
+                    .FirstOrDefault(tr => tr.RequestId == travelRequestId);
+
+                if (travelRequest == null)
+                {
+                    return NotFound("Travel request not found.");
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    var pdfDoc = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4, 25, 25, 30, 30);
+                    PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+                    pdfDoc.Open();
+
+                    // Set Background Color
+                    PdfContentByte canvas = writer.DirectContentUnder;
+                    canvas.SetColorFill(new BaseColor(240, 240, 240)); 
+                    canvas.Rectangle(0, 0, pdfDoc.PageSize.Width, pdfDoc.PageSize.Height);
+                    canvas.Fill();
+
+                    // Define Fonts
+                    var titleFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 22, iTextSharp.text.Font.BOLD, BaseColor.RED); // Dark blue for Travel Desk
+                    var headerFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.BOLD, BaseColor.WHITE);
+                    var sectionFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.BOLD, BaseColor.DARK_GRAY);
+                    var bodyFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 12);
+                    var tableFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 12);
+                    var footerFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 10, iTextSharp.text.Font.ITALIC, BaseColor.GRAY);
+
+                    // Header Section with Travel Desk name and spacing
+                    pdfDoc.Add(new Paragraph("Travel Desk ", titleFont));
+                    pdfDoc.Add(new Paragraph("\n")); 
+
+                    // Ticket Information Section (ID, Booking Date)
+                    var ticketInfoTable = new PdfPTable(2);
+                    ticketInfoTable.WidthPercentage = 100;
+                    ticketInfoTable.SetWidths(new float[] { 3f, 1f });
+                    ticketInfoTable.AddCell(GetStyledCell("Ticket ID: " + travelRequest.RequestId, sectionFont, true));
+                    ticketInfoTable.AddCell(GetStyledCell("Booking Date: " + DateTime.Now.ToShortDateString(), sectionFont, true));
+                    pdfDoc.Add(ticketInfoTable);
+                    pdfDoc.Add(new Paragraph("\n"));  
+
+                    // Passenger Information
+                    pdfDoc.Add(new Paragraph("Passenger Information:", sectionFont));
+                    pdfDoc.Add(new Paragraph("\n")); 
+                    var passengerInfoTable = new PdfPTable(2);
+                    passengerInfoTable.WidthPercentage = 100;
+                    passengerInfoTable.SetWidths(new float[] { 1f, 2f });
+                    passengerInfoTable.AddCell(GetStyledCell("Name:", tableFont, true));
+                    passengerInfoTable.AddCell(GetStyledCell($"{travelRequest.User.FirstName} {travelRequest.User.LastName}", tableFont));
+                    passengerInfoTable.AddCell(GetStyledCell("Email:", tableFont, true));
+                    passengerInfoTable.AddCell(GetStyledCell(travelRequest.User.Email, tableFont));
+                    passengerInfoTable.AddCell(GetStyledCell("Phone Number:", tableFont, true));
+                    passengerInfoTable.AddCell(GetStyledCell(travelRequest.User.MobileNum, tableFont));
+                    pdfDoc.Add(passengerInfoTable);
+                    pdfDoc.Add(new Paragraph("\n")); // Adds space before next section
+
+                    // Travel Details Table
+                    pdfDoc.Add(new Paragraph("Travel Information:", sectionFont));
+                    pdfDoc.Add(new Paragraph("\n")); // Add space
+                    var travelInfoTable = new PdfPTable(2);
+                    travelInfoTable.WidthPercentage = 100;
+                    travelInfoTable.SetWidths(new float[] { 1f, 2f });
+                    travelInfoTable.AddCell(GetStyledCell("From Date:", tableFont, true));
+                    travelInfoTable.AddCell(GetStyledCell(travelRequest.FromDate.ToShortDateString(), tableFont));
+                    travelInfoTable.AddCell(GetStyledCell("To Date:", tableFont, true));
+                    travelInfoTable.AddCell(GetStyledCell(travelRequest.ToDate.ToShortDateString(), tableFont));
+                    travelInfoTable.AddCell(GetStyledCell("From Location:", tableFont, true));
+                    travelInfoTable.AddCell(GetStyledCell(travelRequest.FromLocation, tableFont));
+                    travelInfoTable.AddCell(GetStyledCell("To Location:", tableFont, true));
+                    travelInfoTable.AddCell(GetStyledCell(travelRequest.ToLocation, tableFont));
+                    pdfDoc.Add(travelInfoTable);
+                    pdfDoc.Add(new Paragraph("\n")); 
+
+                   
+                    pdfDoc.Add(new Paragraph("Booking Details:", sectionFont));
+                    pdfDoc.Add(new Paragraph("\n")); 
+                    var bookingInfoTable = new PdfPTable(2);
+                    bookingInfoTable.WidthPercentage = 100;
+                    bookingInfoTable.SetWidths(new float[] { 1f, 2f });
+                    bookingInfoTable.AddCell(GetStyledCell("Reason for Travel:", tableFont, true));
+                    bookingInfoTable.AddCell(GetStyledCell(travelRequest.ReasonForTravelling, tableFont));
+                    bookingInfoTable.AddCell(GetStyledCell("Project Name:", tableFont, true));
+                    bookingInfoTable.AddCell(GetStyledCell(travelRequest.ProjectName, tableFont));
+                    bookingInfoTable.AddCell(GetStyledCell("Comments:", tableFont, true));
+                    bookingInfoTable.AddCell(GetStyledCell(travelRequest.Comments, tableFont));
+                    pdfDoc.Add(bookingInfoTable);
+                    pdfDoc.Add(new Paragraph("\n")); 
+                    pdfDoc.Add(new Paragraph("TravelDesk Support: +1 234 567 890 | Email: support@traveldesk.com", footerFont));
+                    pdfDoc.Add(new Paragraph("Thank you for choosing TravelDesk! We hope you have a safe and pleasant journey.", footerFont));
+                  //  pdfDoc.Add(new Paragraph("QR Code Placeholder", footerFont)); // Placeholder for QR code
+
+                    pdfDoc.Close();
+
+                    var pdfBytes = stream.ToArray();
+                    return File(pdfBytes, "application/pdf", "TravelRequestTicket.pdf");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+      
+        private PdfPCell GetStyledCell(string text, Font font, bool isHeader = false)
+        {
+            PdfPCell cell = new PdfPCell(new Phrase(text, font));
+
+            if (isHeader)
+            {
+                cell.BackgroundColor = BaseColor.LIGHT_GRAY; 
+            }
+
+            cell.BorderWidth = 1f;
+            cell.Padding = 5f;
+            return cell;
+        }
+
+
     }
 }
